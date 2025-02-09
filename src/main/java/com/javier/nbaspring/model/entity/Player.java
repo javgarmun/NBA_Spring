@@ -1,5 +1,6 @@
 package com.javier.nbaspring.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -28,6 +29,7 @@ public class Player {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Team_name")
+    @JsonIgnoreProperties("hibernateLazyInitializer")
     private com.javier.nbaspring.model.entity.Team teamName;
 
     @Column(name = "Salary")

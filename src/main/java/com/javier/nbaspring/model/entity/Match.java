@@ -1,5 +1,6 @@
 package com.javier.nbaspring.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,10 +15,12 @@ public class Match {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "local_team")
+    @JsonIgnoreProperties("hibernateLazyInitializer")
     private com.javier.nbaspring.model.entity.Team localTeam;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visitor_team")
+    @JsonIgnoreProperties("hibernateLazyInitializer")
     private com.javier.nbaspring.model.entity.Team visitorTeam;
 
     @Column(name = "points_local")
