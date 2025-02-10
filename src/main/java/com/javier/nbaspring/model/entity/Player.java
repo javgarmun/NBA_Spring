@@ -30,7 +30,7 @@ public class Player {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Team_name")
     @JsonIgnoreProperties("hibernateLazyInitializer")
-    private com.javier.nbaspring.model.entity.Team teamName;
+    private Team teamName;
 
     @Column(name = "Salary")
     private Integer salary;
