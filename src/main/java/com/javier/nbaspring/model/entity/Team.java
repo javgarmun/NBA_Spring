@@ -1,9 +1,8 @@
 package com.javier.nbaspring.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "teams", schema = "nba")
@@ -20,6 +19,9 @@ public class Team {
 
     @Column(name = "Division", length = 9)
     private String division;
+
+    @OneToMany(mappedBy = "teamName", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Player> players;
 
     public String getName() {
         return name;
@@ -53,4 +55,11 @@ public class Team {
         this.division = division;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
 }

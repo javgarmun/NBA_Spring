@@ -1,10 +1,13 @@
 package com.javier.nbaspring.model.services;
 
+import com.javier.nbaspring.model.dao.PlayerRepo;
 import com.javier.nbaspring.model.dao.TeamRepo;
+import com.javier.nbaspring.model.entity.Player;
 import com.javier.nbaspring.model.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,8 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamRepo teamRepo;
+    @Autowired
+    private PlayerRepo playerRepo;
 
 
     @Override
@@ -45,6 +50,24 @@ public class TeamServiceImpl implements TeamService {
             return teamRepo.save(updatedTeam);
         } else {
             throw new RuntimeException("Team with name " + name + " not found");
+        }
+    }
+
+    // Manejo de jugadores
+    @Override
+    public List<Player> getPlayersByTeam(String teamName) {
+        Optional<Team> team = teamRepo.findById(teamName);
+        return team.map(Team::getPlayers).orElse(List.of());
+    }
+
+    @Override
+    public Player addPlayerToTeam(String teamName, Player player) {
+        Optional<Team> team = teamRepo.findById(teamName);
+        if (team.isPresent()) {
+            player.setTeamName(team.get());
+            return playerRepo.save(player);
+        } else {
+            throw new RuntimeException("Team with name " + teamName + " not found");
         }
     }
 }

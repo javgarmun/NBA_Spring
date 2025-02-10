@@ -29,7 +29,7 @@ public class Player {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Team_name")
-    @JsonIgnoreProperties("hibernateLazyInitializer")
+    @JsonIgnoreProperties({"hibernateLazyInitializer","players"})
     private Team teamName;
 
     @Column(name = "Salary")

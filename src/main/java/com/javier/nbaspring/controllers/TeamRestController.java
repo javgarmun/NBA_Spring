@@ -1,6 +1,7 @@
 package com.javier.nbaspring.controllers;
 
 import com.javier.nbaspring.model.entity.Team;
+import com.javier.nbaspring.model.entity.Player;
 import com.javier.nbaspring.model.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +65,28 @@ public class TeamRestController {
             teamService.deleteById(name);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Manejo de jugadores
+    // GET /nba/teams/{name}/players - Obtener todos los jugadores de un equipo
+    @GetMapping("/{name}/players")
+    public ResponseEntity<List<Player>> getPlayersByTeam(@PathVariable String name) {
+        List<Player> players = teamService.getPlayersByTeam(name);
+        if (players.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(players, HttpStatus.OK);
+    }
+
+    // POST /nba/teams/{name}/players - Añadir un jugador a un equipo
+    @PostMapping("/{name}/players")
+    public ResponseEntity<Player> addPlayerToTeam(@PathVariable String name, @RequestBody Player player) {
+        try {
+            Player newPlayer = teamService.addPlayerToTeam(name, player);
+            return new ResponseEntity<>(newPlayer, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
